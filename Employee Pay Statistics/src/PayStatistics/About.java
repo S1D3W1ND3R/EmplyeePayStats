@@ -1,9 +1,19 @@
 package PayStatistics;
 
+import java.awt.Toolkit;
+
 public class About extends javax.swing.JFrame {
 
     public About() {
         initComponents();
+        // center form
+        this.setLocationRelativeTo(null);
+        // set default button to add
+        this.getRootPane().setDefaultButton(exitAboutJButton);
+        // add icon to the form
+        this.setIconImage(Toolkit.getDefaultToolkit().
+                getImage("src/PayStatistics/EmployeeLogo.jpg"));
+        exitAboutJButton.requestFocus();
     }
 
     /**

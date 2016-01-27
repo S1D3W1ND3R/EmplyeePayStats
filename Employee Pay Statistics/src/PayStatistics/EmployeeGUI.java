@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class EmployeeGUI extends javax.swing.JFrame {
@@ -58,12 +59,29 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }
 
     public void fillComboBox() {
-
+        insertionSort(employees);
         String[] employeesNames = new String[employees.size()];
         for (int i = 0; i < employeesNames.length; i++) {
             employeesNames[i] = employees.get(i).getName();
         }
         employeeJComboBox.setModel(new DefaultComboBoxModel(employeesNames));
+    }
+
+    //javadocs needed for insertion sort
+    public void insertionSort(ArrayList<Employee> employees) {
+        int i, j;
+        for (i = 0; i < employees.size(); i++) {
+            Employee temp = employees.get(i);
+            j = i - 1;
+            while (j >= 0 && employees.get(j).getName().
+                    compareToIgnoreCase(temp.getName()) > 0) {
+                {
+                    employees.set(j + 1, employees.get(j));
+                    j--;
+                }
+                employees.set(j + 1, temp);
+            }
+        }
     }
 
     /**
@@ -378,7 +396,16 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteJMenuItemActionPerformed
-        // TODO add your handling code here:
+        //Delete an Employee
+        int result = JOptionPane.showConfirmDialog(null,
+                "Are you sure that you wish to delete the employee?", "Delete Employee",
+                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (result == 0) { //confirm yes
+            int index = employeeJComboBox.getSelectedIndex();
+            employees.remove(index);
+            saveEmployees(fileName); //save to external file
+            fillComboBox();
+        }
     }//GEN-LAST:event_deleteJMenuItemActionPerformed
 
     private void stdJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdJMenuItemActionPerformed
@@ -398,7 +425,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_printJMenuItemActionPerformed
 
     private void clearJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearJMenuItemActionPerformed
-
+        
     }//GEN-LAST:event_clearJMenuItemActionPerformed
 
     private void quitJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitJButtonActionPerformed
