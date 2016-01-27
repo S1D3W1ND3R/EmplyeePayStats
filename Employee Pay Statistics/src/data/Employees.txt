@@ -1,0 +1,5 @@
+Homer Simpson,40,9
+Monty Burns,35,175
+Ned Flanders,30,15
+Moe Szyslak,50,30
+Chief Wiggum,38,20
