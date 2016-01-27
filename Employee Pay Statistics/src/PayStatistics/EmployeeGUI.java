@@ -10,18 +10,36 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
+/**
+ * EmployeeGUI.java A class to manage employees and their pay statistics.
+ * <pre>
+ *      Project: Employee Pay Statistics (Project 1)
+ *      Platform: jdk 8.0_66, Netbeans 8.1, Windows 10
+ *      Course: CS 142C
+ *      Hours: 10 hours
+ *      Date: 1/27/2016
+ *      Revision:
+ * </pre>
+ *
+ * @author Mitchell Nye
+ * @author Alexander Jordan
+ * @version %1
+ */
 public class EmployeeGUI extends javax.swing.JFrame {
 
+    // Instance variables:
     private ArrayList<Employee> employees = new ArrayList<Employee>();
     private final String fileName = "src/data/Employees.txt";
     private DecimalFormat number = new DecimalFormat("#,##0");
 
     /**
      * Creates new form EmployeeGUI
+     *
+     * @see readFromFile
+     * @see displayEmployees
      */
     public EmployeeGUI() {
         initComponents();
@@ -35,16 +53,84 @@ public class EmployeeGUI extends javax.swing.JFrame {
         //Read employees from an external file and populate the arraylist:
         readFromFile(fileName);
         //Show the employee names in the combobox:
-        fillComboBox();
+        displayEmployees();
         //Show the gross pay for the selected employee:
 
     }
 
+    /**
+     * readFromFile fills an array by reading a text file and separating data by
+     * using the comma as a token.
+     *
+     * @param file
+     */
+    public void readFromFile(String file) {
+        try {
+            // Clear employees arrayList in case it has something in it:
+            employees.clear();
+            FileReader inputFile = new FileReader(file);
+            BufferedReader input = new BufferedReader(inputFile);
+            String line = input.readLine();
+            // Read the file line by line:
+            while (line != null) {
+                Employee emp = new Employee();
+                // StringTokenizer further seperates the data (using comma):
+                StringTokenizer token = new StringTokenizer(line, ",");
+                // Each line should have a name, hours and rate:
+                while (token.hasMoreTokens()) {
+                    emp.setName(token.nextToken());
+                    emp.setHours(Float.parseFloat(token.nextToken()));
+                    emp.setRate(Float.parseFloat(token.nextToken()));
+                }
+                // Add the temp employee (emp) to an index of employees:
+                employees.add(emp);
+                // Move to the next line (if there is one):
+                line = input.readLine();
+            }
+            // Close the file:
+            input.close();
+            //Catch exceptions:
+        } catch (FileNotFoundException exp) {
+            // Implement JFileChooser in a later version:
+            exp.printStackTrace();
+        } catch (IOException exp) {
+            exp.printStackTrace();
+        }
+    }
+
+    /**
+     * displayEmployees displays the list of employees in the employeeJComboBox.
+     *
+     * @see insertionSort
+     * @param fileName
+     */
+    private void displayEmployees() {
+        // Create an arrayList that will hold employee names:
+        String[] employeesNames = new String[employees.size()];
+        // Sort the employees arraylist using insertion sort by name:
+        insertionSort(employees);
+        // Fill new string array with employee names:
+        for (int i = 0; i < employeesNames.length; i++) {
+            employeesNames[i] = employees.get(i).getName();
+        }
+        // Clear combobox and fill it with employee names:
+        employeeJComboBox.removeAllItems();
+        for (int i = 0; i < employees.size(); i++) {
+            employeeJComboBox.addItem(employeesNames[i]);
+        }
+    }
+
+    /**
+     * saveEmployees writes the employees arrayList to a file.
+     *
+     * @param fileName
+     */
     public void saveEmployees(String fileName) {
         try {
             FileWriter filePointer = new FileWriter(fileName, false);
             PrintWriter output = new PrintWriter(filePointer);
-            //Go through emplyees arraylist, set temp to output format, output to file
+            // Go through employees arraylist, set temp to output format, 
+            // output to file:
             for (int i = 0; i < employees.size(); i++) {
                 Employee tempEmployee = employees.get(i);
                 String line = tempEmployee.getName()
@@ -58,16 +144,12 @@ public class EmployeeGUI extends javax.swing.JFrame {
         }
     }
 
-    public void fillComboBox() {
-        insertionSort(employees);
-        String[] employeesNames = new String[employees.size()];
-        for (int i = 0; i < employeesNames.length; i++) {
-            employeesNames[i] = employees.get(i).getName();
-        }
-        employeeJComboBox.setModel(new DefaultComboBoxModel(employeesNames));
-    }
-
-    //javadocs needed for insertion sort
+    /**
+     * insertionSort places small values at the beginning of the list by
+     * comparing two values at a time and swapping them if necessary.
+     *
+     * @param employees
+     */
     public void insertionSort(ArrayList<Employee> employees) {
         int i, j;
         for (i = 0; i < employees.size(); i++) {
@@ -85,50 +167,23 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }
 
     /**
-     * Read from file
+     * searchEmployee sorts the array, stores employee names in an arrayList,
+     * then uses linear search to determine if there is a value that contains
+     * the given String.
      *
-     * @param file
+     * @see insertionSort
+     * @param name
      */
-    public void readFromFile(String file) {
-        try {
-            employees.clear();
-            FileReader inputFile = new FileReader(file);
-            BufferedReader input = new BufferedReader(inputFile);
-            String line = input.readLine();
-            while (line != null) {
-                Employee emp = new Employee();
-                //use the stringtokenizer class to separate the file
-                StringTokenizer token = new StringTokenizer(line, ",");
-                while (token.hasMoreTokens()) {
-                    emp.setName(token.nextToken());
-                    emp.setHours(Float.parseFloat(token.nextToken()));
-                    emp.setRate(Float.parseFloat(token.nextToken()));
-                }
-                //add the employee to the array list
-                employees.add(emp);
-                line = input.readLine();
-            }
-            input.close();
-        } catch (FileNotFoundException exp) {
-            exp.printStackTrace();
-            //better:JFileChooser to select file
-        } catch (IOException exp) {
-            exp.printStackTrace();
-        }
-    }
-
-    //Javadocs needed for searchEmployee
     private void searchEmployee(String name) {
         if (name != null && name.length() > 0) {
-            // Sort JList by names
-
-            // Create string array of names only
+            // Sort employees by name:
+            insertionSort(employees);
+            // Create string array of names only:
             String[] employeeArray = new String[employees.size()];
             for (int i = 0; i < employeeArray.length; i++) {
                 employeeArray[i] = employees.get(i).getName();
             }
-
-            // Call binary search to find the name
+            // Call linearSearch to find the name:
             int index = linearSearch(employeeArray, name);
             //int index = binarySearch(employeeArray, name);
             if (index == -1) {
@@ -139,16 +194,25 @@ public class EmployeeGUI extends javax.swing.JFrame {
                 employeeJComboBox.setSelectedIndex(index);
             }
         }
-
     }
 
+    /**
+     * linearSearch checks if the array has an index that contains the same set
+     * of Strings as the one given to it. It returns the index if it finds one,
+     * and a -1 if it doesn't.
+     *
+     * @param array
+     * @param key
+     * @return
+     */
     public int linearSearch(String[] array, String key) {
         for (int i = 0; i < array.length; i++) {
             if (array[i].toLowerCase().contains(key.toLowerCase())) {
                 return i;
             }
         }
-        return -1; //employee not found
+        // Employee not found:
+        return -1;
     }
 
     /**
@@ -168,7 +232,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
         displayJButton = new javax.swing.JButton();
         quitJButton = new javax.swing.JButton();
         statsJPanel = new javax.swing.JPanel();
-        dataJScrollPane = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         dataJList = new javax.swing.JList<>();
         employeeJMenuBar = new javax.swing.JMenuBar();
         fileJMenu = new javax.swing.JMenu();
@@ -190,6 +254,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
         aboutJMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(410, 280));
         setResizable(false);
 
         titleJLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -200,16 +265,16 @@ public class EmployeeGUI extends javax.swing.JFrame {
         titleJPanelLayout.setHorizontalGroup(
             titleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleJPanelLayout.createSequentialGroup()
-                .addGap(103, 103, 103)
+                .addContainerGap()
                 .addComponent(titleJLabel)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGap(165, 165, 165))
         );
         titleJPanelLayout.setVerticalGroup(
             titleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titleJPanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titleJPanelLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
                 .addComponent(titleJLabel)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         getContentPane().add(titleJPanel, java.awt.BorderLayout.PAGE_START);
@@ -238,13 +303,13 @@ public class EmployeeGUI extends javax.swing.JFrame {
         employeeInfoJPanelLayout.setHorizontalGroup(
             employeeInfoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(employeeInfoJPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(employeeInfoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(employeeJLabel)
                     .addComponent(employeeJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(displayJButton)
                     .addComponent(quitJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         employeeInfoJPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {displayJButton, employeeJComboBox, quitJButton});
@@ -254,36 +319,32 @@ public class EmployeeGUI extends javax.swing.JFrame {
             .addGroup(employeeInfoJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(employeeJLabel)
-                .addGap(16, 16, 16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(employeeJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(displayJButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(quitJButton)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         employeeInfoJPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {displayJButton, employeeJComboBox, employeeJLabel, quitJButton});
 
         getContentPane().add(employeeInfoJPanel, java.awt.BorderLayout.LINE_START);
 
-        dataJList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        dataJList.setPreferredSize(new java.awt.Dimension(225, 200));
-        dataJScrollPane.setViewportView(dataJList);
+        jScrollPane1.setViewportView(dataJList);
 
-        statsJPanel.add(dataJScrollPane);
+        statsJPanel.add(jScrollPane1);
 
-        getContentPane().add(statsJPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(statsJPanel, java.awt.BorderLayout.LINE_END);
 
         fileJMenu.setMnemonic('f');
         fileJMenu.setText("File");
+        fileJMenu.setToolTipText("");
 
         clearJMenuItem.setMnemonic('c');
         clearJMenuItem.setText("Clear");
+        clearJMenuItem.setToolTipText("Clear the data from the form.");
         clearJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearJMenuItemActionPerformed(evt);
@@ -293,6 +354,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         printJMenuItem.setMnemonic('p');
         printJMenuItem.setText("Print");
+        printJMenuItem.setToolTipText("Print this form.");
         printJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printJMenuItemActionPerformed(evt);
@@ -303,6 +365,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         quitJMenuItem.setMnemonic('q');
         quitJMenuItem.setText("Quit");
+        quitJMenuItem.setToolTipText("Exit Employee Pay Statistics.");
         quitJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 quitJMenuItemActionPerformed(evt);
@@ -317,7 +380,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         newJMenuItem.setMnemonic('n');
         newJMenuItem.setText("New Employee");
-        newJMenuItem.setToolTipText("Add, Delete, Modify and Search Employees");
+        newJMenuItem.setToolTipText("Add an employee.");
         newJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newJMenuItemActionPerformed(evt);
@@ -327,10 +390,12 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         editJMenuItem.setMnemonic('e');
         editJMenuItem.setText("Edit Employee");
+        editJMenuItem.setToolTipText("Edit an employee.");
         employeeJMenu.add(editJMenuItem);
 
         deleteJMenuItem.setMnemonic('d');
         deleteJMenuItem.setText("Delete Employee");
+        deleteJMenuItem.setToolTipText("Delete selected employee.");
         deleteJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteJMenuItemActionPerformed(evt);
@@ -340,6 +405,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         searchJMenuItem.setMnemonic('s');
         searchJMenuItem.setText("Search Employee");
+        searchJMenuItem.setToolTipText("Search for an employee.");
         searchJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchJMenuItemActionPerformed(evt);
@@ -354,15 +420,17 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         meanJMenuItem.setMnemonic('m');
         meanJMenuItem.setText("Mean");
-        meanJMenuItem.setToolTipText("");
+        meanJMenuItem.setToolTipText("Show the mean gross pay.");
         statisticsJMenu.add(meanJMenuItem);
 
         medianJMenuItem.setMnemonic('d');
         medianJMenuItem.setText("Median");
+        medianJMenuItem.setToolTipText("Show the median gross pay.");
         statisticsJMenu.add(medianJMenuItem);
 
         stdJMenuItem.setMnemonic('s');
         stdJMenuItem.setText("Standard Deviation");
+        stdJMenuItem.setToolTipText("Show the standard deviation.");
         stdJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stdJMenuItemActionPerformed(evt);
@@ -372,6 +440,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         allJMenuItem.setMnemonic('t');
         allJMenuItem.setText("All Three");
+        allJMenuItem.setToolTipText("Show the mean, median and standard deviation.");
         statisticsJMenu.add(allJMenuItem);
 
         employeeJMenuBar.add(statisticsJMenu);
@@ -381,6 +450,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         aboutJMenuItem.setMnemonic('a');
         aboutJMenuItem.setText("About");
+        aboutJMenuItem.setToolTipText("View the about form.");
         aboutJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutJMenuItemActionPerformed(evt);
@@ -396,15 +466,18 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteJMenuItemActionPerformed
-        //Delete an Employee
+        // Display a dialog confirming that the employee is to be deleted:
         int result = JOptionPane.showConfirmDialog(null,
                 "Are you sure that you wish to delete the employee?", "Delete Employee",
                 JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-        if (result == 0) { //confirm yes
+        if (result == 0) { // Confirm
+            // Get the selected index and remove it from the arrayList:
             int index = employeeJComboBox.getSelectedIndex();
             employees.remove(index);
-            saveEmployees(fileName); //save to external file
-            fillComboBox();
+            // Save the updated list to the external file:
+            saveEmployees(fileName);
+            // Display updated arrayList in the combobox:
+            displayEmployees();
         }
     }//GEN-LAST:event_deleteJMenuItemActionPerformed
 
@@ -413,40 +486,59 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_stdJMenuItemActionPerformed
 
     private void quitJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitJMenuItemActionPerformed
+        // Close the program:
         System.exit(0);
     }//GEN-LAST:event_quitJMenuItemActionPerformed
 
     private void displayJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayJButtonActionPerformed
-        // TODO add your handling code here:
+        // Create a default list model so that we can modify our JList:
+        DefaultListModel listModel = new DefaultListModel();
+        // Get the element selected on the combobox:
+        int index = employeeJComboBox.getSelectedIndex();
+        // Set the first line of the JList to be descriptive:
+        listModel.addElement("Gross Pay for "
+                + employees.get(index).getName() + ":");
+        // Multiply rate with hours to get the gross pay for the employee:
+        listModel.addElement("$" + employees.get(index).getHours()
+                * employees.get(index).getRate());
+        // Set our JList's model to be the same as our default list model:
+        dataJList.setModel(listModel);
     }//GEN-LAST:event_displayJButtonActionPerformed
 
     private void printJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printJMenuItemActionPerformed
+        // Display the print utilities form:
         PrintUtilities.printComponent(this);
     }//GEN-LAST:event_printJMenuItemActionPerformed
 
     private void clearJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearJMenuItemActionPerformed
-        
+        // Create a default list model so that we can modify our JList:
+        DefaultListModel listModel = new DefaultListModel();
+        // Set our JList model equal to the empty one we just made:
+        dataJList.setModel(listModel);
     }//GEN-LAST:event_clearJMenuItemActionPerformed
 
     private void quitJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitJButtonActionPerformed
+        // Close the program:
         System.exit(0);
     }//GEN-LAST:event_quitJButtonActionPerformed
 
     private void newJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newJMenuItemActionPerformed
         try {
-            //Create an instance of AddEmployee JDialog
+            // Create an instance of AddEmployee JDialog:
             AddEmployee newEmployee = new AddEmployee();
             newEmployee.setVisible(true);
-
-            //Get the newly created Employee forom the JDialog object
+            // Get the newly created Employee from the JDialog object:
             Employee anEmployee = newEmployee.getEmployee();
-            //Create the employee and add to the arraylist and file
-            if (anEmployee != null) { //&& !employeeExists(anEmployee)
-                //Add employee to arraylist, to database and update display
+            // Create the employee and add to the arrayList and file:
+            if (anEmployee != null) {
+                // Add employee to arrayList, to database and update display
                 employees.add(anEmployee);
+                // Search for existing employees:
                 searchEmployee(anEmployee.getName());
-                fillComboBox();
+                // Save updated list to file:
                 saveEmployees(fileName);
+                // Display employees in combobox:
+                displayEmployees();
             }
         } catch (NullPointerException nullexp) {
             nullexp.printStackTrace();
@@ -454,12 +546,13 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_newJMenuItemActionPerformed
 
     private void searchJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchJMenuItemActionPerformed
-        //Find specified employee
+        // Take input from the user via dialog, then search for the name:
         String employeeName = JOptionPane.showInputDialog("Enter name of employee:");
         searchEmployee(employeeName);
     }//GEN-LAST:event_searchJMenuItemActionPerformed
 
     private void aboutJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutJMenuItemActionPerformed
+        // Display the about menu when the menu item's action is performed:
         About about = new About();
         about.setVisible(true);
     }//GEN-LAST:event_aboutJMenuItemActionPerformed
@@ -504,7 +597,6 @@ public class EmployeeGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem allJMenuItem;
     private javax.swing.JMenuItem clearJMenuItem;
     private javax.swing.JList<String> dataJList;
-    private javax.swing.JScrollPane dataJScrollPane;
     private javax.swing.JMenuItem deleteJMenuItem;
     private javax.swing.JButton displayJButton;
     private javax.swing.JMenuItem editJMenuItem;
@@ -516,6 +608,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
     private javax.swing.JMenu fileJMenu;
     private javax.swing.JPopupMenu.Separator fileJSeparator;
     private javax.swing.JMenu helpJMenu;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem meanJMenuItem;
     private javax.swing.JMenuItem medianJMenuItem;
     private javax.swing.JMenuItem newJMenuItem;

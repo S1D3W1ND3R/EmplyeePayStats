@@ -1,9 +1,17 @@
 package PayStatistics;
 
 import java.awt.Toolkit;
+import PayStatistics.EmployeeGUI;
 
+/**
+ *
+ * @author Mitchell
+ */
 public class About extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public About() {
         initComponents();
         // center form
@@ -14,6 +22,7 @@ public class About extends javax.swing.JFrame {
         this.setIconImage(Toolkit.getDefaultToolkit().
                 getImage("src/PayStatistics/EmployeeLogo.jpg"));
         exitAboutJButton.requestFocus();
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -25,29 +34,73 @@ public class About extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        warningJLabel = new javax.swing.JLabel();
-        aboutJTextField = new javax.swing.JTextField();
-        exitAboutJButton = new javax.swing.JButton();
+        aboutTitleJPanel = new javax.swing.JPanel();
         employeesJLabel = new javax.swing.JLabel();
+        aboutInfoJPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        aboutBaseJPanel = new javax.swing.JPanel();
+        warningJLabel = new javax.swing.JLabel();
+        exitAboutJButton = new javax.swing.JButton();
         copyrightJLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setResizable(false);
 
-        warningJLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        aboutTitleJPanel.setPreferredSize(new java.awt.Dimension(292, 22));
+
+        employeesJLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        employeesJLabel.setText("Employees Pay Statistics");
+
+        javax.swing.GroupLayout aboutTitleJPanelLayout = new javax.swing.GroupLayout(aboutTitleJPanel);
+        aboutTitleJPanel.setLayout(aboutTitleJPanelLayout);
+        aboutTitleJPanelLayout.setHorizontalGroup(
+            aboutTitleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutTitleJPanelLayout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(employeesJLabel)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        aboutTitleJPanelLayout.setVerticalGroup(
+            aboutTitleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutTitleJPanelLayout.createSequentialGroup()
+                .addComponent(employeesJLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        aboutInfoJPanel.setPreferredSize(new java.awt.Dimension(292, 157));
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(25);
+        jTextArea1.setFont(new java.awt.Font("Lucida Console", 0, 10)); // NOI18N
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(7);
+        jTextArea1.setText("Purpose: Allow users to easily analyze, store and print employee pay statistics.\n\nAuthors: Mitchell Nye, Alexander Jordan\nClass: CS-142-2700\nInstructor: Niko Culevski\nPublish date: 1/27/2016");
+        jTextArea1.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout aboutInfoJPanelLayout = new javax.swing.GroupLayout(aboutInfoJPanel);
+        aboutInfoJPanel.setLayout(aboutInfoJPanelLayout);
+        aboutInfoJPanelLayout.setHorizontalGroup(
+            aboutInfoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutInfoJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        aboutInfoJPanelLayout.setVerticalGroup(
+            aboutInfoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutInfoJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        warningJLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         warningJLabel.setText("Warning");
 
-        aboutJTextField.setEditable(false);
-        aboutJTextField.setColumns(10);
-        aboutJTextField.setText("This application was designed and built by Mitchell Nye and Alexander Jordan. ");
-        aboutJTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutJTextFieldActionPerformed(evt);
-            }
-        });
-
-        exitAboutJButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exitAboutJButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         exitAboutJButton.setMnemonic('c');
         exitAboutJButton.setText("Close");
         exitAboutJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -56,45 +109,55 @@ public class About extends javax.swing.JFrame {
             }
         });
 
-        employeesJLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        employeesJLabel.setText("Employees Pay Statistics");
-
-        copyrightJLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        copyrightJLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         copyrightJLabel.setText("Copyright");
+
+        javax.swing.GroupLayout aboutBaseJPanelLayout = new javax.swing.GroupLayout(aboutBaseJPanel);
+        aboutBaseJPanel.setLayout(aboutBaseJPanelLayout);
+        aboutBaseJPanelLayout.setHorizontalGroup(
+            aboutBaseJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutBaseJPanelLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(warningJLabel)
+                .addGap(40, 40, 40)
+                .addComponent(exitAboutJButton)
+                .addGap(40, 40, 40)
+                .addComponent(copyrightJLabel)
+                .addContainerGap())
+        );
+        aboutBaseJPanelLayout.setVerticalGroup(
+            aboutBaseJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutBaseJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(exitAboutJButton)
+                .addComponent(warningJLabel)
+                .addComponent(copyrightJLabel))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(aboutTitleJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
             .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(warningJLabel)
-                        .addGap(41, 41, 41)
-                        .addComponent(exitAboutJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(copyrightJLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(employeesJLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(aboutJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                    .addComponent(aboutBaseJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(aboutInfoJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(employeesJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(aboutJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(aboutTitleJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(warningJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exitAboutJButton)
-                    .addComponent(copyrightJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(aboutInfoJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(aboutBaseJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -104,10 +167,6 @@ public class About extends javax.swing.JFrame {
         // end application
         this.dispose();
     }//GEN-LAST:event_exitAboutJButtonActionPerformed
-
-    private void aboutJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutJTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aboutJTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,10 +205,14 @@ public class About extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField aboutJTextField;
+    private javax.swing.JPanel aboutBaseJPanel;
+    private javax.swing.JPanel aboutInfoJPanel;
+    private javax.swing.JPanel aboutTitleJPanel;
     private javax.swing.JLabel copyrightJLabel;
     private javax.swing.JLabel employeesJLabel;
     private javax.swing.JButton exitAboutJButton;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel warningJLabel;
     // End of variables declaration//GEN-END:variables
 }
