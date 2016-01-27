@@ -1,6 +1,7 @@
 package PayStatistics;
 
 import PayStatistics.Employee;
+import PayStatistics.EmployeeGUI;
 import java.awt.Toolkit;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class AddEmployee extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(500, 359));
         setResizable(false);
 
-        titleJPanel.setLayout(new java.awt.GridLayout());
+        titleJPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         displayJPanel.setPreferredSize(new java.awt.Dimension(400, 75));
         displayJPanel.setLayout(new java.awt.GridLayout(3, 2));
@@ -78,7 +79,7 @@ public class AddEmployee extends javax.swing.JDialog {
         displayJPanel.add(rateJTextField);
 
         controlJButton3.setPreferredSize(new java.awt.Dimension(724, 100));
-        controlJButton3.setLayout(new java.awt.GridLayout());
+        controlJButton3.setLayout(new java.awt.GridLayout(1, 0));
 
         saveJButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         saveJButton.setMnemonic('s');
@@ -156,15 +157,16 @@ public class AddEmployee extends javax.swing.JDialog {
         //Create an instance of a new employee jdialog to get the employee
         // and add it to the database -- need validation
         try {
-            //Create an instance of AddEmployee JDialog
+            //Tak input from AddEmployee JDialog
             name = nameJTextField.getText();
             hours = Float.parseFloat(hoursJTextField.getText());
             rate = Float.parseFloat(rateJTextField.getText());
 
-            //Get the newly created employee forom the JDialog object
+            //Set new employee's variables to input
             newEmployee = new Employee(name, hours, rate);
             this.dispose();
             //Create the employee and add to the arraylist and file
+            
             
         } catch (NullPointerException nullexp) {
             nullexp.printStackTrace();

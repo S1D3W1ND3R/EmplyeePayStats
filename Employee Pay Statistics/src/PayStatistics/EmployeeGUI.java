@@ -36,7 +36,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
         //Show the employee names in the combobox:
         fillComboBox();
         //Show the gross pay for the selected employee:
-        
+
     }
 
     public void saveEmployees(String fileName) {
@@ -58,7 +58,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
     }
 
     public void fillComboBox() {
-        
+
         String[] employeesNames = new String[employees.size()];
         for (int i = 0; i < employeesNames.length; i++) {
             employeesNames[i] = employees.get(i).getName();
@@ -242,7 +242,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
                 .addComponent(displayJButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(quitJButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         employeeInfoJPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {displayJButton, employeeJComboBox, employeeJLabel, quitJButton});
@@ -363,6 +363,11 @@ public class EmployeeGUI extends javax.swing.JFrame {
 
         aboutJMenuItem.setMnemonic('a');
         aboutJMenuItem.setText("About");
+        aboutJMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutJMenuItemActionPerformed(evt);
+            }
+        });
         helpJMenu.add(aboutJMenuItem);
 
         employeeJMenuBar.add(helpJMenu);
@@ -426,6 +431,11 @@ public class EmployeeGUI extends javax.swing.JFrame {
         String employeeName = JOptionPane.showInputDialog("Enter name of employee:");
         searchEmployee(employeeName);
     }//GEN-LAST:event_searchJMenuItemActionPerformed
+
+    private void aboutJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutJMenuItemActionPerformed
+        About about = new About();
+        about.setVisible(true);
+    }//GEN-LAST:event_aboutJMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
